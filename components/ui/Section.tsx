@@ -21,7 +21,7 @@ export default function Section({
   const backgrounds = {
     white: 'bg-white',
     gray: 'bg-neutral-50',
-    primary: 'bg-primary-50',
+    primary: 'bg-primary-600',
     gradient: 'bg-gradient-to-b from-white to-neutral-50',
   };
 
