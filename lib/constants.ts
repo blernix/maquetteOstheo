@@ -8,7 +8,7 @@ export const CABINET_INFO = {
   title: 'Ostéopathe D.O.',
 
   // Informations réglementaires
-  rpps: '10123456789', // Numéro RPPS (11 chiffres)
+  rpps: '[N° RPPS À REMPLIR]',
   arsRegistration: {
     region: 'Île-de-France',
     date: '15 septembre 2015',
@@ -54,7 +54,7 @@ export const CABINET_INFO = {
   // Informations juridiques
   legal: {
     businessType: 'Entreprise individuelle',
-    siret: '89012345600012',
+    siret: '[NUMÉRO SIRET À REMPLIR]',
     tva: 'Non applicable (Art. 261-4-1° du CGI)',
   },
 
@@ -62,11 +62,11 @@ export const CABINET_INFO = {
   insurance: {
     company: 'MMA Assurances',
     address: '14 Boulevard Marie et Alexandre Oyon, 72030 Le Mans Cedex 9',
-    policyNumber: 'RCP-OST-2024-789456',
+    policyNumber: '[N° DE CONTRAT À REMPLIR]',
     phone: '02 43 47 47 47',
     guarantees: {
-      perIncident: '8 000 000 €',
-      perYear: '15 000 000 €',
+      perIncident: '[MONTANT À REMPLIR]',
+      perYear: '[MONTANT À REMPLIR]',
     },
   },
 

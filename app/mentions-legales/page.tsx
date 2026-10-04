@@ -6,6 +6,7 @@ import {
   ProspectEmail,
   ProspectName,
   ProspectPhone,
+  ProspectRegion,
   IfProspectAddress,
   IfProspectPhone,
 } from '@/components/shared/ProspectPersonalization';
@@ -32,7 +33,7 @@ export default function MentionsLegalesPage() {
           <p><strong>Nom du praticien :</strong> <ProspectName fallback={CABINET_INFO.fullName} /></p>
           <p><strong>Titre professionnel :</strong> {CABINET_INFO.title}</p>
           <p><strong>Numéro RPPS :</strong> {CABINET_INFO.rpps}</p>
-          <p><strong>Enregistrement ARS :</strong> {CABINET_INFO.arsRegistration.region}, le {CABINET_INFO.arsRegistration.date}</p>
+          <p><strong>Enregistrement ARS :</strong> <ProspectRegion fallback={CABINET_INFO.arsRegistration.region} date={CABINET_INFO.arsRegistration.date} /></p>
 
           <p><strong>Forme juridique :</strong> {CABINET_INFO.legal.businessType}</p>
           <p><strong>SIRET :</strong> {CABINET_INFO.legal.siret}</p>

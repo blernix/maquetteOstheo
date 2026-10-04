@@ -98,6 +98,7 @@ export function ProspectPersonalization({ children }: { children?: React.ReactNo
       code_postal: clean(params.get('cp') ?? params.get('code_postal')),
       tel: clean(params.get('tel')),
       acces: clean(params.get('acces')),
+      region: clean(params.get('region')),
     };
 
     const active = Object.values(next).some((value) => value !== null);
@@ -217,6 +218,25 @@ export function ProspectCity({ fallback }: { fallback: string }) {
 export function ProspectFirstName({ fallback }: { fallback: string }) {
   const { prenom } = useProspectIdentity();
   return <>{prenom ?? fallback}</>;
+}
+
+/**
+ * Mention ARS : région fournie (`?region=`), région de démonstration sans
+ * paramètre, ou « Agence Régionale de Santé » neutre sur une page
+ * personnalisée sans région. Aucune région n'est déduite de la ville.
+ */
+export function ProspectRegion({
+  fallback,
+  date,
+}: {
+  fallback: string;
+  date?: string;
+}) {
+  const { region, active } = useProspectIdentity();
+
+  if (region) return <>{date ? `${region}, le ${date}` : region}</>;
+  if (active) return <>Agence Régionale de Santé</>;
+  return <>{date ? `${fallback}, le ${date}` : fallback}</>;
 }
 
 export function ProspectInitials({ fallback }: { fallback: string }) {

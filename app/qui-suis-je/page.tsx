@@ -10,6 +10,7 @@ import { CABINET_INFO } from '@/lib/constants';
 import {
   ProspectInitials,
   ProspectName,
+  ProspectRegion,
   ProspectText,
 } from '@/components/shared/ProspectPersonalization';
 
@@ -70,7 +71,10 @@ export default function QuiSuisJePage() {
                 </div>
                 <p className="text-neutral-700">
                   <strong className="text-neutral-900">Enregistrement ARS :</strong>{' '}
-                  {CABINET_INFO.arsRegistration.region}, le {CABINET_INFO.arsRegistration.date}
+                  <ProspectRegion
+                    fallback={CABINET_INFO.arsRegistration.region}
+                    date={CABINET_INFO.arsRegistration.date}
+                  />
                 </p>
               </div>
               <div className="flex items-start gap-3">

@@ -9,6 +9,7 @@ import {
   ProspectInitials,
   ProspectName,
   ProspectPhone,
+  ProspectRegion,
   IfProspectAddress,
   IfProspectPhone,
 } from '@/components/shared/ProspectPersonalization';
@@ -40,7 +41,7 @@ export default function Footer() {
             </p>
             <div className="text-sm text-neutral-400 space-y-1">
               <p><strong className="text-white">N° RPPS :</strong> {CABINET_INFO.rpps}</p>
-              <p><strong className="text-white">ARS :</strong> {CABINET_INFO.arsRegistration.region}</p>
+              <p><strong className="text-white">ARS :</strong> <ProspectRegion fallback={CABINET_INFO.arsRegistration.region} /></p>
             </div>
           </div>
 
