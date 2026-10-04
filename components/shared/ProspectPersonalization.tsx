@@ -152,13 +152,19 @@ export function ProspectPersonalization({ children }: { children?: React.ReactNo
             } else if (identity.active) {
               delete data.telephone;
             }
-            // Adresse : construite uniquement à partir de ce qui est connu.
+            // Adresse : reconstruite uniquement à partir de ce qui est connu,
+            // pour ne jamais laisser traîner la rue ou le code postal de la
+            // ville de démonstration sur une page personnalisée.
             if (identity.adresse || identity.ville || identity.code_postal) {
-              data.address = data.address ?? {};
+              const country = data.address?.addressCountry;
+              data.address = {
+                '@type': 'PostalAddress',
+                ...(country ? { addressCountry: country } : {}),
+              };
               if (identity.adresse) data.address.streetAddress = identity.adresse;
               if (identity.ville) data.address.addressLocality = identity.ville;
               if (identity.code_postal) data.address.postalCode = identity.code_postal;
-            } else if (identity.active) {
+            } else {
               delete data.address;
             }
             const nextSchema = JSON.stringify(data);
