@@ -2,6 +2,12 @@ import React from 'react';
 import Link from 'next/link';
 import { Phone, Mail, MapPin, Clock, Facebook, Instagram, Linkedin } from 'lucide-react';
 import { CABINET_INFO } from '@/lib/constants';
+import {
+  ProspectCity,
+  ProspectInitials,
+  ProspectName,
+  ProspectText,
+} from '@/components/shared/ProspectPersonalization';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -15,18 +21,18 @@ export default function Footer() {
           <div>
             <div className="flex items-center gap-3 mb-4">
               <div className="w-12 h-12 bg-gradient-primary rounded-full flex items-center justify-center text-white font-serif font-bold text-xl">
-                SM
+                <ProspectInitials fallback="SM" />
               </div>
               <div className="flex flex-col">
                 <span className="font-serif font-semibold text-lg">
-                  {CABINET_INFO.firstName} {CABINET_INFO.lastName}
+                  <ProspectName fallback={`${CABINET_INFO.firstName} ${CABINET_INFO.lastName}`} />
                 </span>
                 <span className="text-sm text-primary-400">{CABINET_INFO.title}</span>
               </div>
             </div>
             <p className="text-neutral-400 text-sm leading-relaxed mb-4">
-              Cabinet d'ostéopathie à Paris. Spécialisée dans l'accompagnement des femmes enceintes,
-              des nourrissons et des sportifs.
+              Cabinet d'ostéopathie à <ProspectCity fallback="Paris" />. Spécialisée dans
+              l'accompagnement des femmes enceintes, des nourrissons et des sportifs.
             </p>
             <div className="text-sm text-neutral-400 space-y-1">
               <p><strong className="text-white">N° RPPS :</strong> {CABINET_INFO.rpps}</p>
@@ -65,7 +71,7 @@ export default function Footer() {
               <div className="flex items-start gap-3">
                 <MapPin size={18} className="text-primary-400 flex-shrink-0 mt-0.5" />
                 <p className="text-neutral-400">
-                  {CABINET_INFO.address.fullAddress}
+                  <ProspectText text={CABINET_INFO.address.fullAddress} />
                 </p>
               </div>
               <div className="flex items-center gap-3">
@@ -139,7 +145,8 @@ export default function Footer() {
         <div className="container py-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-neutral-400">
             <p>
-              © {currentYear} {CABINET_INFO.fullName} - Tous droits réservés
+              © {currentYear} <ProspectName fallback={CABINET_INFO.fullName} /> - Tous droits
+              réservés
             </p>
             <div className="flex items-center gap-4">
               <p>

@@ -5,6 +5,11 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Phone, Mail, MapPin, X } from 'lucide-react';
 import { CABINET_INFO } from '@/lib/constants';
+import {
+  ProspectInitials,
+  ProspectName,
+  ProspectText,
+} from '@/components/shared/ProspectPersonalization';
 import Button from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -58,11 +63,11 @@ export default function MobileNav({ open, onClose, navigation }: MobileNavProps)
             <div className="flex items-center justify-between p-6 border-b border-neutral-200">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-gradient-primary rounded-full flex items-center justify-center text-white font-serif font-bold text-lg">
-                  SM
+                  <ProspectInitials fallback="SM" />
                 </div>
                 <div className="flex flex-col">
                   <span className="font-serif font-semibold text-lg text-neutral-900">
-                    Dr. {CABINET_INFO.lastName}
+                    <ProspectName fallback={`Dr. ${CABINET_INFO.lastName}`} />
                   </span>
                   <span className="text-xs text-primary-600">{CABINET_INFO.title}</span>
                 </div>
@@ -129,7 +134,9 @@ export default function MobileNav({ open, onClose, navigation }: MobileNavProps)
                   <div className="w-10 h-10 bg-primary-50 rounded-full flex items-center justify-center flex-shrink-0">
                     <MapPin size={18} className="text-primary-600" />
                   </div>
-                  <span className="text-sm">{CABINET_INFO.address.fullAddress}</span>
+                  <span className="text-sm">
+                    <ProspectText text={CABINET_INFO.address.fullAddress} />
+                  </span>
                 </div>
               </div>
             </div>

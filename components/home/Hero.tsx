@@ -5,6 +5,12 @@ import { motion } from 'framer-motion';
 import { Calendar, Phone, ArrowRight } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import { CABINET_INFO } from '@/lib/constants';
+import {
+  ProspectCity,
+  ProspectInitials,
+  ProspectName,
+  ProspectText,
+} from '@/components/shared/ProspectPersonalization';
 
 export default function Hero() {
   return (
@@ -45,7 +51,7 @@ export default function Hero() {
             >
               Cabinet d'Ostéopathie{' '}
               <span className="text-primary-600">
-                {CABINET_INFO.firstName} {CABINET_INFO.lastName}
+                <ProspectName fallback={`${CABINET_INFO.firstName} ${CABINET_INFO.lastName}`} />
               </span>
             </motion.h1>
 
@@ -56,8 +62,9 @@ export default function Hero() {
               transition={{ duration: 0.6, delay: 0.3 }}
               className="text-lg md:text-xl text-neutral-600 mb-8 leading-relaxed"
             >
-              Votre ostéopathe D.O. à Paris pour toute la famille : nourrissons, sportifs,
-              femmes enceintes, seniors. Une approche globale et personnalisée pour votre bien-être.
+              Votre ostéopathe D.O. à <ProspectCity fallback="Paris" /> pour toute la famille :
+              nourrissons, sportifs, femmes enceintes, seniors. Une approche globale et personnalisée
+              pour votre bien-être.
             </motion.p>
 
             {/* Points clés */}
@@ -120,7 +127,9 @@ export default function Hero() {
               <div className="flex flex-col sm:flex-row gap-6 text-sm text-neutral-600">
                 <div>
                   <p className="font-semibold text-neutral-900 mb-1">Adresse</p>
-                  <p>{CABINET_INFO.address.fullAddress}</p>
+                  <p>
+                    <ProspectText text={CABINET_INFO.address.fullAddress} />
+                  </p>
                 </div>
                 <div>
                   <p className="font-semibold text-neutral-900 mb-1">Horaires</p>
@@ -144,7 +153,9 @@ export default function Hero() {
                 {/* Image placeholder - à remplacer par une vraie photo */}
                 <div className="text-center">
                   <div className="w-48 h-48 mx-auto mb-6 bg-white/50 rounded-full flex items-center justify-center">
-                    <span className="text-6xl font-serif font-bold text-primary-600">SM</span>
+                    <span className="text-6xl font-serif font-bold text-primary-600">
+                      <ProspectInitials fallback="SM" />
+                    </span>
                   </div>
                   <p className="text-neutral-600 text-sm">
                     Photo professionnelle<br />du cabinet

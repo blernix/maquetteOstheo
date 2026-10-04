@@ -2,6 +2,10 @@ import React from 'react';
 import Link from 'next/link';
 import Section from '@/components/ui/Section';
 import { CABINET_INFO } from '@/lib/constants';
+import {
+  ProspectName,
+  ProspectText,
+} from '@/components/shared/ProspectPersonalization';
 
 export const metadata = {
   title: 'Politique de Confidentialité',
@@ -23,9 +27,9 @@ export default function PolitiqueConfidentialitePage() {
       <Section background="white" padding="lg">
         <div className="max-w-4xl mx-auto prose prose-lg max-w-none">
           <h2>1. Responsable du traitement des données</h2>
-          <p><strong>Nom :</strong> {CABINET_INFO.fullName}</p>
-          <p><strong>Cabinet d'ostéopathie :</strong> Cabinet {CABINET_INFO.fullName}</p>
-          <p><strong>Adresse :</strong> {CABINET_INFO.address.fullAddress}</p>
+          <p><strong>Nom :</strong> <ProspectName fallback={CABINET_INFO.fullName} /></p>
+          <p><strong>Cabinet d'ostéopathie :</strong> Cabinet <ProspectName fallback={CABINET_INFO.fullName} /></p>
+          <p><strong>Adresse :</strong> <ProspectText text={CABINET_INFO.address.fullAddress} /></p>
           <p><strong>Email :</strong> {CABINET_INFO.email}</p>
           <p><strong>Téléphone :</strong> {CABINET_INFO.phone}</p>
 
@@ -106,7 +110,7 @@ export default function PolitiqueConfidentialitePage() {
           <p>Pour exercer vos droits, contactez-nous :</p>
           <ul>
             <li><strong>Par email :</strong> <a href={`mailto:${CABINET_INFO.email}`}>{CABINET_INFO.email}</a></li>
-            <li><strong>Par courrier :</strong> {CABINET_INFO.address.fullAddress}</li>
+            <li><strong>Par courrier :</strong> <ProspectText text={CABINET_INFO.address.fullAddress} /></li>
           </ul>
 
           <p>Une réponse vous sera apportée dans un délai maximum d'un mois.</p>
@@ -144,7 +148,7 @@ export default function PolitiqueConfidentialitePage() {
           <p>Pour toute question relative à la protection de vos données :</p>
           <p><strong>Email :</strong> <a href={`mailto:${CABINET_INFO.email}`}>{CABINET_INFO.email}</a></p>
           <p><strong>Téléphone :</strong> {CABINET_INFO.phone}</p>
-          <p><strong>Adresse :</strong> {CABINET_INFO.address.fullAddress}</p>
+          <p><strong>Adresse :</strong> <ProspectText text={CABINET_INFO.address.fullAddress} /></p>
         </div>
       </Section>
     </>

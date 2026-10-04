@@ -4,6 +4,7 @@ import '@/styles/globals.css';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import RGPDConsent from '@/components/shared/RGPDConsent';
+import { ProspectPersonalization } from '@/components/shared/ProspectPersonalization';
 import { CABINET_INFO } from '@/lib/constants';
 
 const inter = Inter({
@@ -120,10 +121,12 @@ export default function RootLayout({
         />
       </head>
       <body className="font-sans">
-        <Header />
-        <main className="min-h-screen">{children}</main>
-        <Footer />
-        <RGPDConsent />
+        <ProspectPersonalization>
+          <Header />
+          <main className="min-h-screen">{children}</main>
+          <Footer />
+          <RGPDConsent />
+        </ProspectPersonalization>
       </body>
     </html>
   );

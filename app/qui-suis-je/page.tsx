@@ -7,7 +7,11 @@ import Section, { SectionHeader } from '@/components/ui/Section';
 import Card from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
 import { CABINET_INFO } from '@/lib/constants';
-import type { Metadata } from 'next';
+import {
+  ProspectInitials,
+  ProspectName,
+  ProspectText,
+} from '@/components/shared/ProspectPersonalization';
 
 export default function QuiSuisJePage() {
   return (
@@ -27,7 +31,9 @@ export default function QuiSuisJePage() {
                 <div className="text-center">
                   <div className="w-32 h-32 mx-auto mb-4 bg-white/50 rounded-full flex items-center justify-center">
                     <span className="text-5xl font-serif font-bold text-primary-600">
-                      {CABINET_INFO.firstName[0]}{CABINET_INFO.lastName[0]}
+                      <ProspectInitials
+                        fallback={`${CABINET_INFO.firstName[0]}${CABINET_INFO.lastName[0]}`}
+                      />
                     </span>
                   </div>
                   <p className="text-neutral-600 text-sm">Photo professionnelle</p>
@@ -43,7 +49,7 @@ export default function QuiSuisJePage() {
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             <h1 className="text-4xl md:text-5xl font-serif font-bold text-neutral-900 mb-4">
-              {CABINET_INFO.fullName}
+              <ProspectName fallback={CABINET_INFO.fullName} />
             </h1>
             <p className="text-xl text-primary-600 font-medium mb-6">
               {CABINET_INFO.title}
@@ -90,7 +96,7 @@ export default function QuiSuisJePage() {
         <SectionHeader title="Mon parcours" centered={false} />
         <div className="prose max-w-none">
           <p className="text-lg text-neutral-700 leading-relaxed mb-6">
-            {CABINET_INFO.experience.description}
+            <ProspectText text={CABINET_INFO.experience.description} />
           </p>
 
           <Card padding="lg" className="mb-8">
