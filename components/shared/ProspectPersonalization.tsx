@@ -50,6 +50,11 @@ function personalizeText(text: string, identity: ProspectIdentity): string {
       `${CABINET_INFO.address.city} dans le 14ème arrondissement`,
       identity.ville
     );
+    // Meta « à Paris 14ème » et mots-clés « ostéopathe Paris 14 » : on ne
+    // laisse jamais traîner un arrondissement parisien sur une page d'une
+    // autre ville (ex. « Nantes 14ème »).
+    value = replaceAll(value, `${CABINET_INFO.address.city} 14ème`, identity.ville);
+    value = replaceAll(value, `${CABINET_INFO.address.city} 14`, identity.ville);
     value = replaceAll(value, CABINET_INFO.address.city, identity.ville);
   }
   if (identity.nom) {
