@@ -6,6 +6,11 @@ import { GraduationCap, Award, Heart, TrendingUp } from 'lucide-react';
 import Section from '@/components/ui/Section';
 import Button from '@/components/ui/Button';
 import { CABINET_INFO } from '@/lib/constants';
+import {
+  ProspectInitials,
+  ProspectName,
+  ProspectText,
+} from '@/components/shared/ProspectPersonalization';
 
 export default function About() {
   const values = [
@@ -43,7 +48,7 @@ export default function About() {
               <div className="text-center">
                 <div className="w-32 h-32 mx-auto mb-4 bg-white/50 rounded-full flex items-center justify-center">
                   <span className="text-5xl font-serif font-bold text-primary-600">
-                    {CABINET_INFO.firstName[0]}{CABINET_INFO.lastName[0]}
+                    <ProspectInitials fallback={`${CABINET_INFO.firstName[0]}${CABINET_INFO.lastName[0]}`} />
                   </span>
                 </div>
                 <p className="text-neutral-600 text-sm">Photo professionnelle</p>
@@ -87,11 +92,11 @@ export default function About() {
           </p>
 
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-semibold text-neutral-900 mb-6">
-            {CABINET_INFO.fullName}
+            <ProspectName fallback={CABINET_INFO.fullName} />
           </h2>
 
           <p className="text-lg text-neutral-600 leading-relaxed mb-6">
-            {CABINET_INFO.experience.description}
+            <ProspectText text={CABINET_INFO.experience.description} />
           </p>
 
           {/* Diplôme et certification */}

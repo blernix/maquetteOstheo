@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X, Phone, Mail, Clock } from 'lucide-react';
 import { CABINET_INFO } from '@/lib/constants';
+import { ProspectInitials, ProspectName } from '@/components/shared/ProspectPersonalization';
 import Button from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
 import MobileNav from './MobileNav';
@@ -82,11 +83,11 @@ export default function Header() {
             {/* Logo */}
             <Link href="/" className="flex items-center gap-3 group">
               <div className="w-12 h-12 bg-gradient-primary rounded-full flex items-center justify-center text-white font-serif font-bold text-xl transition-transform group-hover:scale-105">
-                SM
+                <ProspectInitials fallback="SM" />
               </div>
               <div className="flex flex-col">
                 <span className="font-serif font-semibold text-xl text-neutral-900">
-                  {CABINET_INFO.firstName} {CABINET_INFO.lastName}
+                  <ProspectName fallback={`${CABINET_INFO.firstName} ${CABINET_INFO.lastName}`} />
                 </span>
                 <span className="text-sm text-primary-600">{CABINET_INFO.title}</span>
               </div>

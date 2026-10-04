@@ -6,6 +6,7 @@ import { MapPin, Phone, Mail, Clock, Train, Car, Euro } from 'lucide-react';
 import Section, { SectionHeader } from '@/components/ui/Section';
 import Card from '@/components/ui/Card';
 import { CABINET_INFO } from '@/lib/constants';
+import { ProspectCity } from '@/components/shared/ProspectPersonalization';
 
 export default function InfoPratiques() {
   const infoCards = [
@@ -16,7 +17,7 @@ export default function InfoPratiques() {
         <>
           <p className="text-neutral-700">{CABINET_INFO.address.street}</p>
           <p className="text-neutral-700">
-            {CABINET_INFO.address.postalCode} {CABINET_INFO.address.city}
+            {CABINET_INFO.address.postalCode} <ProspectCity fallback={CABINET_INFO.address.city} />
           </p>
           <p className="text-sm text-primary-600 mt-2">Métro : Alésia (ligne 4)</p>
         </>

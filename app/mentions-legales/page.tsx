@@ -1,6 +1,10 @@
 import React from 'react';
 import Section from '@/components/ui/Section';
 import { CABINET_INFO, REGULATIONS } from '@/lib/constants';
+import {
+  ProspectName,
+  ProspectText,
+} from '@/components/shared/ProspectPersonalization';
 
 export const metadata = {
   title: 'Mentions Légales',
@@ -21,7 +25,7 @@ export default function MentionsLegalesPage() {
       <Section background="white" padding="lg">
         <div className="max-w-4xl mx-auto prose prose-lg max-w-none">
           <h2>Identification du cabinet</h2>
-          <p><strong>Nom du praticien :</strong> {CABINET_INFO.fullName}</p>
+          <p><strong>Nom du praticien :</strong> <ProspectName fallback={CABINET_INFO.fullName} /></p>
           <p><strong>Titre professionnel :</strong> {CABINET_INFO.title}</p>
           <p><strong>Numéro RPPS :</strong> {CABINET_INFO.rpps}</p>
           <p><strong>Enregistrement ARS :</strong> {CABINET_INFO.arsRegistration.region}, le {CABINET_INFO.arsRegistration.date}</p>
@@ -30,7 +34,7 @@ export default function MentionsLegalesPage() {
           <p><strong>SIRET :</strong> {CABINET_INFO.legal.siret}</p>
           <p><strong>TVA :</strong> {CABINET_INFO.legal.tva}</p>
 
-          <p><strong>Adresse du cabinet :</strong><br />{CABINET_INFO.address.fullAddress}</p>
+          <p><strong>Adresse du cabinet :</strong><br /><ProspectText text={CABINET_INFO.address.fullAddress} /></p>
           <p><strong>Téléphone :</strong> {CABINET_INFO.phone}</p>
           <p><strong>Email :</strong> {CABINET_INFO.email}</p>
 
@@ -78,7 +82,7 @@ export default function MentionsLegalesPage() {
           <p>Conformément aux articles 226-13 et 226-14 du Code pénal, l'ostéopathe est soumis au secret professionnel.</p>
 
           <h2>Propriété intellectuelle</h2>
-          <p>Le contenu de ce site (textes, images, graphismes, logo) est la propriété exclusive de {CABINET_INFO.fullName}, sauf mention contraire.</p>
+          <p>Le contenu de ce site (textes, images, graphismes, logo) est la propriété exclusive de <ProspectName fallback={CABINET_INFO.fullName} />, sauf mention contraire.</p>
           <p>Toute reproduction ou utilisation sans autorisation préalable est strictement interdite.</p>
 
           <h2>Crédits</h2>

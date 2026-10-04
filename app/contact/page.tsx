@@ -7,6 +7,7 @@ import Section, { SectionHeader } from '@/components/ui/Section';
 import Card from '@/components/ui/Card';
 import ContactForm from '@/components/contact/ContactForm';
 import { CABINET_INFO } from '@/lib/constants';
+import { ProspectText } from '@/components/shared/ProspectPersonalization';
 
 export default function ContactPage() {
   return (
@@ -57,7 +58,9 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <p className="font-semibold text-neutral-900 mb-1">Adresse</p>
-                  <p className="text-sm text-neutral-600">{CABINET_INFO.address.fullAddress}</p>
+                  <p className="text-sm text-neutral-600">
+                    <ProspectText text={CABINET_INFO.address.fullAddress} />
+                  </p>
                   <a
                     href={`https://www.google.com/maps/search/?api=1&query=${CABINET_INFO.address.coordinates.lat},${CABINET_INFO.address.coordinates.lng}`}
                     target="_blank"
