@@ -3,12 +3,14 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X, Phone, Clock } from 'lucide-react';
+import { Menu, X, Clock } from 'lucide-react';
 import { CABINET_INFO } from '@/lib/constants';
 import {
   ProspectInitials,
   ProspectName,
   ProspectEmail,
+  ProspectPhone,
+  IfProspectPhone,
 } from '@/components/shared/ProspectPersonalization';
 import Button from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
@@ -50,13 +52,13 @@ export default function Header() {
         <div className="container">
           <div className="flex items-center justify-between text-sm">
             <div className="flex items-center gap-6">
-              <a
-                href={`tel:${CABINET_INFO.phone.replace(/\s/g, '')}`}
-                className="flex items-center gap-2 hover:text-primary-100 transition-colors"
-              >
-                <Phone size={16} />
-                <span>{CABINET_INFO.phone}</span>
-              </a>
+              <IfProspectPhone>
+                <ProspectPhone
+                  className="flex items-center gap-2 hover:text-primary-100 transition-colors"
+                  withIcon
+                  iconClassName="h-4 w-4"
+                />
+              </IfProspectPhone>
               <ProspectEmail
                 className="flex items-center gap-2 hover:text-primary-100 transition-colors"
                 withIcon

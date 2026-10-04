@@ -5,9 +5,11 @@ import { motion } from 'framer-motion';
 import { Calendar, Phone, ArrowRight } from 'lucide-react';
 import Section from '@/components/ui/Section';
 import Button from '@/components/ui/Button';
-import { CABINET_INFO } from '@/lib/constants';
+import { useProspectContact } from '@/components/shared/ProspectPersonalization';
 
 export default function CTA() {
+  const { phone, phoneHref, acces, active } = useProspectContact();
+  const showAccess = !active || Boolean(acces);
   return (
     <Section background="primary" padding="lg" className="relative overflow-hidden">
       {/* Motifs décoratifs */}
@@ -79,13 +81,15 @@ export default function CTA() {
               Prendre rendez-vous
               <ArrowRight size={20} className="ml-2 group-hover:translate-x-1 transition-transform" />
             </Button>
-            <a
-              href={`tel:${CABINET_INFO.phone.replace(/\s/g, '')}`}
-              className="inline-flex items-center justify-center px-8 py-4 bg-white text-primary-700 rounded-lg font-medium text-lg hover:bg-white/90 transition-all btn-hover-lift shadow-lg"
-            >
-              <Phone size={20} className="mr-2" />
-              {CABINET_INFO.phone}
-            </a>
+            {phone && phoneHref && (
+              <a
+                href={phoneHref}
+                className="inline-flex items-center justify-center px-8 py-4 bg-white text-primary-700 rounded-lg font-medium text-lg hover:bg-white/90 transition-all btn-hover-lift shadow-lg"
+              >
+                <Phone size={20} className="mr-2" />
+                {phone}
+              </a>
+            )}
           </motion.div>
 
           {/* Informations supplémentaires */}
@@ -105,10 +109,12 @@ export default function CTA() {
                 <p className="font-semibold text-white mb-1">Flexibilité</p>
                 <p>Horaires adaptés à votre emploi du temps</p>
               </div>
-              <div>
-                <p className="font-semibold text-white mb-1">Accessibilité</p>
-                <p>Métro Alésia (ligne 4)</p>
-              </div>
+              {showAccess && (
+                <div>
+                  <p className="font-semibold text-white mb-1">Accessibilité</p>
+                  <p>{active ? acces : 'Métro Alésia (ligne 4)'}</p>
+                </div>
+              )}
             </div>
           </motion.div>
         </motion.div>

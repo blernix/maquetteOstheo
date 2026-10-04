@@ -3,9 +3,13 @@ import Link from 'next/link';
 import Section from '@/components/ui/Section';
 import { CABINET_INFO } from '@/lib/constants';
 import {
+  ProspectAddress,
+  ProspectAddressInline,
   ProspectEmail,
   ProspectName,
-  ProspectText,
+  ProspectPhone,
+  IfProspectAddress,
+  IfProspectPhone,
 } from '@/components/shared/ProspectPersonalization';
 
 export const metadata = {
@@ -30,9 +34,13 @@ export default function PolitiqueConfidentialitePage() {
           <h2>1. Responsable du traitement des données</h2>
           <p><strong>Nom :</strong> <ProspectName fallback={CABINET_INFO.fullName} /></p>
           <p><strong>Cabinet d'ostéopathie :</strong> Cabinet <ProspectName fallback={CABINET_INFO.fullName} /></p>
-          <p><strong>Adresse :</strong> <ProspectText text={CABINET_INFO.address.fullAddress} /></p>
+          <IfProspectAddress>
+            <p><strong>Adresse :</strong> <ProspectAddressInline /></p>
+          </IfProspectAddress>
           <p><strong>Email :</strong> <ProspectEmail /></p>
-          <p><strong>Téléphone :</strong> {CABINET_INFO.phone}</p>
+          <IfProspectPhone>
+            <p><strong>Téléphone :</strong> <ProspectPhone /></p>
+          </IfProspectPhone>
 
           <h2>2. Données collectées et finalités</h2>
 
@@ -111,7 +119,9 @@ export default function PolitiqueConfidentialitePage() {
           <p>Pour exercer vos droits, contactez-nous :</p>
           <ul>
             <li><strong>Par email :</strong> <ProspectEmail /></li>
-            <li><strong>Par courrier :</strong> <ProspectText text={CABINET_INFO.address.fullAddress} /></li>
+            <IfProspectAddress>
+              <li><strong>Par courrier :</strong> <ProspectAddressInline /></li>
+            </IfProspectAddress>
           </ul>
 
           <p>Une réponse vous sera apportée dans un délai maximum d'un mois.</p>
@@ -148,8 +158,12 @@ export default function PolitiqueConfidentialitePage() {
           <h2>10. Contact</h2>
           <p>Pour toute question relative à la protection de vos données :</p>
           <p><strong>Email :</strong> <ProspectEmail /></p>
-          <p><strong>Téléphone :</strong> {CABINET_INFO.phone}</p>
-          <p><strong>Adresse :</strong> <ProspectText text={CABINET_INFO.address.fullAddress} /></p>
+          <IfProspectPhone>
+            <p><strong>Téléphone :</strong> <ProspectPhone /></p>
+          </IfProspectPhone>
+          <IfProspectAddress>
+            <p><strong>Adresse :</strong> <ProspectAddressInline /></p>
+          </IfProspectAddress>
         </div>
       </Section>
     </>

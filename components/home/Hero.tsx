@@ -6,15 +6,18 @@ import { Calendar, Phone, ArrowRight } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import { CABINET_INFO } from '@/lib/constants';
 import {
+  ProspectAddress,
   ProspectCity,
   ProspectInitials,
   ProspectName,
-  ProspectText,
+  IfProspectAddress,
   useProspectIdentity,
+  useProspectContact,
 } from '@/components/shared/ProspectPersonalization';
 
 export default function Hero() {
   const { nom } = useProspectIdentity();
+  const { phone, phoneHref } = useProspectContact();
   const showCabinetPrefix = !nom || !/cabinet/i.test(nom);
 
   return (
@@ -111,14 +114,12 @@ export default function Hero() {
                 Prendre rendez-vous
                 <ArrowRight size={20} className="ml-2 group-hover:translate-x-1 transition-transform" />
               </Button>
-              <Button
-                href={`tel:${CABINET_INFO.phone.replace(/\s/g, '')}`}
-                variant="outline"
-                size="lg"
-              >
-                <Phone size={20} className="mr-2" />
-                {CABINET_INFO.phone}
-              </Button>
+              {phone && phoneHref && (
+                <Button href={phoneHref} variant="outline" size="lg">
+                  <Phone size={20} className="mr-2" />
+                  {phone}
+                </Button>
+              )}
             </motion.div>
 
             {/* Informations complémentaires */}
@@ -129,12 +130,12 @@ export default function Hero() {
               className="mt-8 pt-8 border-t border-neutral-200"
             >
               <div className="flex flex-col sm:flex-row gap-6 text-sm text-neutral-600">
-                <div>
-                  <p className="font-semibold text-neutral-900 mb-1">Adresse</p>
-                  <p>
-                    <ProspectText text={CABINET_INFO.address.fullAddress} />
-                  </p>
-                </div>
+                <IfProspectAddress>
+                  <div>
+                    <p className="font-semibold text-neutral-900 mb-1">Adresse</p>
+                    <ProspectAddress className="not-italic" />
+                  </div>
+                </IfProspectAddress>
                 <div>
                   <p className="font-semibold text-neutral-900 mb-1">Horaires</p>
                   <p>Lun - Ven : 9h - 19h</p>

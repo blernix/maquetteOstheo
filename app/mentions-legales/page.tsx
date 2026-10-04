@@ -2,9 +2,12 @@ import React from 'react';
 import Section from '@/components/ui/Section';
 import { CABINET_INFO, REGULATIONS } from '@/lib/constants';
 import {
+  ProspectAddress,
   ProspectEmail,
   ProspectName,
-  ProspectText,
+  ProspectPhone,
+  IfProspectAddress,
+  IfProspectPhone,
 } from '@/components/shared/ProspectPersonalization';
 
 export const metadata = {
@@ -35,8 +38,12 @@ export default function MentionsLegalesPage() {
           <p><strong>SIRET :</strong> {CABINET_INFO.legal.siret}</p>
           <p><strong>TVA :</strong> {CABINET_INFO.legal.tva}</p>
 
-          <p><strong>Adresse du cabinet :</strong><br /><ProspectText text={CABINET_INFO.address.fullAddress} /></p>
-          <p><strong>Téléphone :</strong> {CABINET_INFO.phone}</p>
+          <IfProspectAddress>
+            <p><strong>Adresse du cabinet :</strong><br /><ProspectAddress className="not-italic" /></p>
+          </IfProspectAddress>
+          <IfProspectPhone>
+            <p><strong>Téléphone :</strong> <ProspectPhone /></p>
+          </IfProspectPhone>
           <p><strong>Email :</strong> <ProspectEmail /></p>
 
           <h2>Diplômes et formation</h2>

@@ -3,11 +3,14 @@ import Link from 'next/link';
 import { Phone, MapPin, Clock, Facebook, Instagram, Linkedin } from 'lucide-react';
 import { CABINET_INFO } from '@/lib/constants';
 import {
+  ProspectAddress,
   ProspectCity,
   ProspectEmail,
   ProspectInitials,
   ProspectName,
-  ProspectText,
+  ProspectPhone,
+  IfProspectAddress,
+  IfProspectPhone,
 } from '@/components/shared/ProspectPersonalization';
 
 export default function Footer() {
@@ -69,21 +72,18 @@ export default function Footer() {
           <div>
             <h3 className="font-serif font-semibold text-lg mb-4">Informations pratiques</h3>
             <div className="space-y-3 text-sm">
-              <div className="flex items-start gap-3">
-                <MapPin size={18} className="text-primary-400 flex-shrink-0 mt-0.5" />
-                <p className="text-neutral-400">
-                  <ProspectText text={CABINET_INFO.address.fullAddress} />
-                </p>
-              </div>
-              <div className="flex items-center gap-3">
-                <Phone size={18} className="text-primary-400 flex-shrink-0" />
-                <a
-                  href={`tel:${CABINET_INFO.phone.replace(/\s/g, '')}`}
-                  className="text-neutral-400 hover:text-white transition-colors"
-                >
-                  {CABINET_INFO.phone}
-                </a>
-              </div>
+              <IfProspectAddress>
+                <div className="flex items-start gap-3">
+                  <MapPin size={18} className="text-primary-400 flex-shrink-0 mt-0.5" />
+                  <ProspectAddress className="text-neutral-400 not-italic" />
+                </div>
+              </IfProspectAddress>
+              <IfProspectPhone>
+                <div className="flex items-center gap-3">
+                  <Phone size={18} className="text-primary-400 flex-shrink-0" />
+                  <ProspectPhone className="text-neutral-400 hover:text-white transition-colors" />
+                </div>
+              </IfProspectPhone>
               <ProspectEmail
                 className="flex items-center gap-3 text-neutral-400 hover:text-white transition-colors"
                 withIcon

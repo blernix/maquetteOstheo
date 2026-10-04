@@ -2,31 +2,20 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Mail } from 'lucide-react';
+import { Mail, Phone as PhoneIcon } from 'lucide-react';
 import { CABINET_INFO } from '@/lib/constants';
+import {
+  EMPTY_PROSPECT_IDENTITY,
+  resolveProspectContact,
+  type ProspectContact,
+  type ProspectIdentity,
+} from '@/lib/prospect-contact';
+
+export type { ProspectContact, ProspectIdentity } from '@/lib/prospect-contact';
 
 const MAX_LENGTH = 60;
 
-export interface ProspectIdentity {
-  nom: string | null;
-  ville: string | null;
-  prenom: string | null;
-  email: string | null;
-  adresse: string | null;
-  code_postal: string | null;
-  /** Vrai dès qu'au moins un paramètre reconnu est fourni dans l'URL. */
-  active: boolean;
-}
-
-const DEFAULT_IDENTITY: ProspectIdentity = {
-  nom: null,
-  ville: null,
-  prenom: null,
-  email: null,
-  adresse: null,
-  code_postal: null,
-  active: false,
-};
+export const DEFAULT_IDENTITY: ProspectIdentity = EMPTY_PROSPECT_IDENTITY;
 
 const ProspectIdentityContext = createContext<ProspectIdentity>(DEFAULT_IDENTITY);
 
@@ -101,7 +90,9 @@ export function ProspectPersonalization({ children }: { children?: React.ReactNo
       prenom: clean(params.get('prenom')),
       email: clean(params.get('email')),
       adresse: clean(params.get('adresse')),
-      code_postal: clean(params.get('code_postal')),
+      code_postal: clean(params.get('cp') ?? params.get('code_postal')),
+      tel: clean(params.get('tel')),
+      acces: clean(params.get('acces')),
     };
 
     const active = Object.values(next).some((value) => value !== null);
@@ -146,11 +137,25 @@ export function ProspectPersonalization({ children }: { children?: React.ReactNo
             }
             if (identity.active) {
               delete data.url;
+              // Coordonnées GPS de démonstration : jamais sur une page
+              // personnalisée (elles pointent sur Paris).
+              delete data.geo;
             }
-            data.address = data.address ?? {};
-            if (identity.adresse) data.address.streetAddress = identity.adresse;
-            if (identity.ville) data.address.addressLocality = identity.ville;
-            if (identity.code_postal) data.address.postalCode = identity.code_postal;
+            // Téléphone : celui fourni, sinon masqué sur une page personnalisée.
+            if (identity.tel) {
+              data.telephone = identity.tel;
+            } else if (identity.active) {
+              delete data.telephone;
+            }
+            // Adresse : construite uniquement à partir de ce qui est connu.
+            if (identity.adresse || identity.ville || identity.code_postal) {
+              data.address = data.address ?? {};
+              if (identity.adresse) data.address.streetAddress = identity.adresse;
+              if (identity.ville) data.address.addressLocality = identity.ville;
+              if (identity.code_postal) data.address.postalCode = identity.code_postal;
+            } else if (identity.active) {
+              delete data.address;
+            }
             const nextSchema = JSON.stringify(data);
             if (schemaElement.textContent !== nextSchema) {
               schemaElement.textContent = nextSchema;
@@ -269,6 +274,141 @@ export function ProspectEmail({
     >
       {icon}
       {CABINET_INFO.email}
+    </a>
+  );
+}
+
+/**
+ * Coordonnées résolues (adresse, téléphone, accès, lien carte) selon l'URL.
+ */
+export function useProspectContact(): ProspectContact {
+  return resolveProspectContact(useProspectIdentity(), {
+    street: CABINET_INFO.address.street,
+    postalCode: CABINET_INFO.address.postalCode,
+    city: CABINET_INFO.address.city,
+    phone: CABINET_INFO.phone,
+  });
+}
+
+/**
+ * Adresse postale (bloc multi-lignes). Masquée si aucune adresse ni ville
+ * exploitable n'est disponible sur une page personnalisée.
+ */
+export function ProspectAddress({ className }: { className?: string }) {
+  const { showAddress, addressLines } = useProspectContact();
+  if (!showAddress) return null;
+
+  return (
+    <address className={className} data-prospect-address="">
+      {addressLines.map((line, index) => (
+        <React.Fragment key={line}>
+          {index > 0 && <br />}
+          {line}
+        </React.Fragment>
+      ))}
+    </address>
+  );
+}
+
+/**
+ * Adresse sur une seule ligne (« 12 rue X, 31000 Toulouse » ou « Lyon »).
+ */
+export function ProspectAddressInline() {
+  const { showAddress, addressOneLine } = useProspectContact();
+  if (!showAddress || !addressOneLine) return null;
+  return <>{addressOneLine}</>;
+}
+
+/** Affiche `children` uniquement si une adresse (ou une ville) est connue. */
+export function IfProspectAddress({ children }: { children: React.ReactNode }) {
+  const { showAddress } = useProspectContact();
+  if (!showAddress) return null;
+  return <>{children}</>;
+}
+
+/** Affiche `children` uniquement si un numéro de téléphone est disponible. */
+export function IfProspectPhone({ children }: { children: React.ReactNode }) {
+  const { phone } = useProspectContact();
+  if (!phone) return null;
+  return <>{children}</>;
+}
+
+/** Affiche `children` uniquement si un accès (métro / bus / parking) est fourni. */
+export function IfProspectAcces({ children }: { children: React.ReactNode }) {
+  const { acces } = useProspectContact();
+  if (!acces) return null;
+  return <>{children}</>;
+}
+
+/** Affiche `children` uniquement sur la version d'origine (aucun paramètre). */
+export function IfNoProspect({ children }: { children: React.ReactNode }) {
+  const { active } = useProspectContact();
+  if (active) return null;
+  return <>{children}</>;
+}
+
+/** Affiche `children` uniquement sur une page personnalisée. */
+export function IfActive({ children }: { children: React.ReactNode }) {
+  const { active } = useProspectContact();
+  if (!active) return null;
+  return <>{children}</>;
+}
+
+/** Numéro de téléphone cliquable. Masqué si aucun numéro n'est disponible. */
+export function ProspectPhone({
+  className,
+  withIcon = false,
+  iconClassName,
+}: {
+  className?: string;
+  withIcon?: boolean;
+  iconClassName?: string;
+}) {
+  const { phone, phoneHref } = useProspectContact();
+  if (!phone || !phoneHref) return null;
+
+  const icon = withIcon ? <PhoneIcon className={iconClassName} aria-hidden="true" /> : null;
+
+  return (
+    <a href={phoneHref} className={className} data-prospect-phone="">
+      {icon}
+      {phone}
+    </a>
+  );
+}
+
+/**
+ * Ligne « Accès » issue du paramètre `?acces=`. Rien si absent.
+ */
+export function ProspectAcces({ className }: { className?: string }) {
+  const { acces } = useProspectContact();
+  if (!acces) return null;
+  return <p className={className} data-prospect-acces="">{acces}</p>;
+}
+
+/**
+ * Lien d'itinéraire Google Maps déduit de l'adresse affichée. Rend `null` si
+ * aucune localisation n'est connue.
+ */
+export function ProspectMapLink({
+  className,
+  children,
+}: {
+  className?: string;
+  children: React.ReactNode;
+}) {
+  const { mapHref } = useProspectContact();
+  if (!mapHref) return null;
+
+  return (
+    <a
+      href={mapHref}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={className}
+      data-prospect-map=""
+    >
+      {children}
     </a>
   );
 }

@@ -2,34 +2,39 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { MapPin, Phone, Mail, Clock, Train, Car, Euro } from 'lucide-react';
+import { MapPin, Phone, Clock, Train, Car, Euro } from 'lucide-react';
 import Section, { SectionHeader } from '@/components/ui/Section';
 import Card from '@/components/ui/Card';
 import { CABINET_INFO } from '@/lib/constants';
 import {
-  ProspectCity,
+  ProspectAddress,
   ProspectEmail,
-  ProspectText,
+  ProspectMapLink,
+  ProspectPhone,
+  ProspectAcces,
+  useProspectContact,
 } from '@/components/shared/ProspectPersonalization';
 
 export default function InfoPratiques() {
+  const contact = useProspectContact();
+
   const infoCards = [
-    {
+    contact.showAddress && {
       icon: MapPin,
       title: 'Adresse',
       content: (
         <>
-          <p className="text-neutral-700">
-            <ProspectText text={CABINET_INFO.address.street} />
-          </p>
-          <p className="text-neutral-700">
-            <ProspectText text={CABINET_INFO.address.postalCode} />{' '}
-            <ProspectCity fallback={CABINET_INFO.address.city} />
-          </p>
-          <p className="text-sm text-primary-600 mt-2">Métro : Alésia (ligne 4)</p>
+          <ProspectAddress className="text-neutral-700 not-italic" />
+          {contact.active
+            ? contact.acces && (
+                <p className="text-sm text-primary-600 mt-2">{contact.acces}</p>
+              )
+            : (
+                <p className="text-sm text-primary-600 mt-2">Métro : Alésia (ligne 4)</p>
+              )}
         </>
       ),
-      link: `https://www.google.com/maps/search/?api=1&query=${CABINET_INFO.address.coordinates.lat},${CABINET_INFO.address.coordinates.lng}`,
+      link: contact.mapHref ?? undefined,
       linkText: 'Voir sur la carte',
     },
     {
@@ -46,17 +51,12 @@ export default function InfoPratiques() {
         </>
       ),
     },
-    {
+    contact.phone && {
       icon: Phone,
       title: 'Contact',
       content: (
         <>
-          <a
-            href={`tel:${CABINET_INFO.phone.replace(/\s/g, '')}`}
-            className="block text-neutral-700 hover:text-primary-600 transition-colors mb-2"
-          >
-            {CABINET_INFO.phone}
-          </a>
+          <ProspectPhone className="block text-neutral-700 hover:text-primary-600 transition-colors mb-2" />
           <ProspectEmail className="block text-neutral-700 hover:text-primary-600 transition-colors text-sm" />
         </>
       ),
@@ -78,7 +78,13 @@ export default function InfoPratiques() {
       link: '/tarifs',
       linkText: 'Voir tous les tarifs',
     },
-  ];
+  ].filter(Boolean) as Array<{
+    icon: typeof MapPin;
+    title: string;
+    content: React.ReactNode;
+    link?: string;
+    linkText?: string;
+  }>;
 
   return (
     <Section background="gray" padding="lg">
@@ -123,7 +129,7 @@ export default function InfoPratiques() {
         ))}
       </div>
 
-      {/* Carte Google Maps */}
+      {/* Carte Google Maps / itinéraire */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -131,58 +137,78 @@ export default function InfoPratiques() {
         transition={{ duration: 0.6, delay: 0.3 }}
         className="rounded-2xl overflow-hidden shadow-medium"
       >
-        <iframe
-          title="Localisation du cabinet"
-          src={`https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2626.3!2d${CABINET_INFO.address.coordinates.lng}!3d${CABINET_INFO.address.coordinates.lat}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zM!5e0!3m2!1sfr!2sfr!4v1234567890123!5m2!1sfr!2sfr`}
-          width="100%"
-          height="450"
-          style={{ border: 0 }}
-          allowFullScreen
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-        />
+        {!contact.active ? (
+          <iframe
+            title="Localisation du cabinet"
+            src={`https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2626.3!2d${CABINET_INFO.address.coordinates.lng}!3d${CABINET_INFO.address.coordinates.lat}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zM!5e0!3m2!1sfr!2sfr!4v1234567890123!5m2!1sfr!2sfr`}
+            width="100%"
+            height="450"
+            style={{ border: 0 }}
+            allowFullScreen
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          />
+        ) : (
+          <div className="flex min-h-[300px] flex-col items-center justify-center gap-4 bg-primary-50 p-8 text-center">
+            <MapPin size={40} className="text-primary-600" />
+            <ProspectAddress className="text-neutral-700 not-italic" />
+            <ProspectMapLink className="rounded-lg bg-primary-600 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-primary-700">
+              Voir sur Google Maps
+            </ProspectMapLink>
+          </div>
+        )}
       </motion.div>
 
       {/* Accès transports */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6, delay: 0.5 }}
-        className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6"
-      >
-        <div className="bg-white rounded-xl p-6 shadow-soft">
-          <div className="flex items-start gap-4">
-            <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-              <Train size={24} className="text-blue-600" />
-            </div>
-            <div>
-              <h4 className="font-semibold text-neutral-900 mb-2">Transports en commun</h4>
-              <ul className="text-sm text-neutral-600 space-y-1">
-                <li>• Métro : Alésia (ligne 4) - 2 min à pied</li>
-                <li>• Bus : Lignes 28, 38, 62, 68</li>
-                <li>• Arrêt : Alésia - René Coty</li>
-              </ul>
+      {(!contact.active || contact.acces) && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+          className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6"
+        >
+          <div className="bg-white rounded-xl p-6 shadow-soft">
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                <Train size={24} className="text-blue-600" />
+              </div>
+              <div>
+                <h4 className="font-semibold text-neutral-900 mb-2">
+                  {contact.active ? 'Accès' : 'Transports en commun'}
+                </h4>
+                {contact.active ? (
+                  <ProspectAcces className="text-sm text-neutral-600" />
+                ) : (
+                  <ul className="text-sm text-neutral-600 space-y-1">
+                    <li>• Métro : Alésia (ligne 4) - 2 min à pied</li>
+                    <li>• Bus : Lignes 28, 38, 62, 68</li>
+                    <li>• Arrêt : Alésia - René Coty</li>
+                  </ul>
+                )}
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="bg-white rounded-xl p-6 shadow-soft">
-          <div className="flex items-start gap-4">
-            <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
-              <Car size={24} className="text-green-600" />
+          {!contact.active && (
+            <div className="bg-white rounded-xl p-6 shadow-soft">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <Car size={24} className="text-green-600" />
+                </div>
+                <div>
+                  <h4 className="font-semibold text-neutral-900 mb-2">En voiture</h4>
+                  <ul className="text-sm text-neutral-600 space-y-1">
+                    <li>• Parking Alésia : 5 min à pied</li>
+                    <li>• Places de stationnement payant dans la rue</li>
+                    <li>• Zone de stationnement résidentiel</li>
+                  </ul>
+                </div>
+              </div>
             </div>
-            <div>
-              <h4 className="font-semibold text-neutral-900 mb-2">En voiture</h4>
-              <ul className="text-sm text-neutral-600 space-y-1">
-                <li>• Parking Alésia : 5 min à pied</li>
-                <li>• Places de stationnement payant dans la rue</li>
-                <li>• Zone de stationnement résidentiel</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </motion.div>
+          )}
+        </motion.div>
+      )}
     </Section>
   );
 }

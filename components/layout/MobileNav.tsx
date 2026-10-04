@@ -3,13 +3,16 @@
 import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Phone, Mail, MapPin, X } from 'lucide-react';
+import { Mail, MapPin, X } from 'lucide-react';
 import { CABINET_INFO } from '@/lib/constants';
 import {
+  ProspectAddress,
   ProspectEmail,
   ProspectInitials,
   ProspectName,
-  ProspectText,
+  ProspectPhone,
+  IfProspectAddress,
+  IfProspectPhone,
 } from '@/components/shared/ProspectPersonalization';
 import Button from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
@@ -111,15 +114,13 @@ export default function MobileNav({ open, onClose, navigation }: MobileNavProps)
                 Contact
               </h3>
               <div className="space-y-3">
-                <a
-                  href={`tel:${CABINET_INFO.phone.replace(/\s/g, '')}`}
-                  className="flex items-center gap-3 text-neutral-700 hover:text-primary-600 transition-colors"
-                >
-                  <div className="w-10 h-10 bg-primary-50 rounded-full flex items-center justify-center">
-                    <Phone size={18} className="text-primary-600" />
-                  </div>
-                  <span className="text-sm">{CABINET_INFO.phone}</span>
-                </a>
+                <IfProspectPhone>
+                  <ProspectPhone
+                    className="flex items-center gap-3 text-neutral-700 hover:text-primary-600 transition-colors"
+                    withIcon
+                    iconClassName="h-[18px] w-[18px]"
+                  />
+                </IfProspectPhone>
 
                 <div className="flex items-center gap-3 text-neutral-700">
                   <div className="w-10 h-10 bg-primary-50 rounded-full flex items-center justify-center">
@@ -128,14 +129,14 @@ export default function MobileNav({ open, onClose, navigation }: MobileNavProps)
                   <ProspectEmail className="text-sm hover:text-primary-600 transition-colors" />
                 </div>
 
-                <div className="flex items-start gap-3 text-neutral-700">
-                  <div className="w-10 h-10 bg-primary-50 rounded-full flex items-center justify-center flex-shrink-0">
-                    <MapPin size={18} className="text-primary-600" />
+                <IfProspectAddress>
+                  <div className="flex items-start gap-3 text-neutral-700">
+                    <div className="w-10 h-10 bg-primary-50 rounded-full flex items-center justify-center flex-shrink-0">
+                      <MapPin size={18} className="text-primary-600" />
+                    </div>
+                    <ProspectAddress className="text-sm not-italic" />
                   </div>
-                  <span className="text-sm">
-                    <ProspectText text={CABINET_INFO.address.fullAddress} />
-                  </span>
-                </div>
+                </IfProspectAddress>
               </div>
             </div>
 
