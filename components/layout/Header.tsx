@@ -3,9 +3,13 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X, Phone, Mail, Clock } from 'lucide-react';
+import { Menu, X, Phone, Clock } from 'lucide-react';
 import { CABINET_INFO } from '@/lib/constants';
-import { ProspectInitials, ProspectName } from '@/components/shared/ProspectPersonalization';
+import {
+  ProspectInitials,
+  ProspectName,
+  ProspectEmail,
+} from '@/components/shared/ProspectPersonalization';
 import Button from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
 import MobileNav from './MobileNav';
@@ -53,13 +57,11 @@ export default function Header() {
                 <Phone size={16} />
                 <span>{CABINET_INFO.phone}</span>
               </a>
-              <a
-                href={`mailto:${CABINET_INFO.email}`}
+              <ProspectEmail
                 className="flex items-center gap-2 hover:text-primary-100 transition-colors"
-              >
-                <Mail size={16} />
-                <span>{CABINET_INFO.email}</span>
-              </a>
+                withIcon
+                iconClassName="h-4 w-4"
+              />
             </div>
             <div className="flex items-center gap-2">
               <Clock size={16} />

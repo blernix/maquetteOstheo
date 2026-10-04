@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Section from '@/components/ui/Section';
 import { CABINET_INFO } from '@/lib/constants';
 import {
+  ProspectEmail,
   ProspectName,
   ProspectText,
 } from '@/components/shared/ProspectPersonalization';
@@ -30,7 +31,7 @@ export default function PolitiqueConfidentialitePage() {
           <p><strong>Nom :</strong> <ProspectName fallback={CABINET_INFO.fullName} /></p>
           <p><strong>Cabinet d'ostéopathie :</strong> Cabinet <ProspectName fallback={CABINET_INFO.fullName} /></p>
           <p><strong>Adresse :</strong> <ProspectText text={CABINET_INFO.address.fullAddress} /></p>
-          <p><strong>Email :</strong> {CABINET_INFO.email}</p>
+          <p><strong>Email :</strong> <ProspectEmail /></p>
           <p><strong>Téléphone :</strong> {CABINET_INFO.phone}</p>
 
           <h2>2. Données collectées et finalités</h2>
@@ -109,7 +110,7 @@ export default function PolitiqueConfidentialitePage() {
           <h3>Exercer vos droits</h3>
           <p>Pour exercer vos droits, contactez-nous :</p>
           <ul>
-            <li><strong>Par email :</strong> <a href={`mailto:${CABINET_INFO.email}`}>{CABINET_INFO.email}</a></li>
+            <li><strong>Par email :</strong> <ProspectEmail /></li>
             <li><strong>Par courrier :</strong> <ProspectText text={CABINET_INFO.address.fullAddress} /></li>
           </ul>
 
@@ -146,7 +147,7 @@ export default function PolitiqueConfidentialitePage() {
 
           <h2>10. Contact</h2>
           <p>Pour toute question relative à la protection de vos données :</p>
-          <p><strong>Email :</strong> <a href={`mailto:${CABINET_INFO.email}`}>{CABINET_INFO.email}</a></p>
+          <p><strong>Email :</strong> <ProspectEmail /></p>
           <p><strong>Téléphone :</strong> {CABINET_INFO.phone}</p>
           <p><strong>Adresse :</strong> <ProspectText text={CABINET_INFO.address.fullAddress} /></p>
         </div>

@@ -2,6 +2,7 @@ import React from 'react';
 import Section from '@/components/ui/Section';
 import { CABINET_INFO, REGULATIONS } from '@/lib/constants';
 import {
+  ProspectEmail,
   ProspectName,
   ProspectText,
 } from '@/components/shared/ProspectPersonalization';
@@ -36,7 +37,7 @@ export default function MentionsLegalesPage() {
 
           <p><strong>Adresse du cabinet :</strong><br /><ProspectText text={CABINET_INFO.address.fullAddress} /></p>
           <p><strong>Téléphone :</strong> {CABINET_INFO.phone}</p>
-          <p><strong>Email :</strong> {CABINET_INFO.email}</p>
+          <p><strong>Email :</strong> <ProspectEmail /></p>
 
           <h2>Diplômes et formation</h2>
           <p><strong>Diplôme d'ostéopathie :</strong> {CABINET_INFO.diploma.school}, obtenu en {CABINET_INFO.diploma.year}</p>

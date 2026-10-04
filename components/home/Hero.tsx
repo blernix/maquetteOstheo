@@ -10,9 +10,13 @@ import {
   ProspectInitials,
   ProspectName,
   ProspectText,
+  useProspectIdentity,
 } from '@/components/shared/ProspectPersonalization';
 
 export default function Hero() {
+  const { nom } = useProspectIdentity();
+  const showCabinetPrefix = !nom || !/cabinet/i.test(nom);
+
   return (
     <section className="relative bg-gradient-to-b from-primary-50 via-white to-neutral-50 overflow-hidden">
       {/* Motifs décoratifs en arrière-plan */}
@@ -49,7 +53,7 @@ export default function Hero() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-neutral-900 mb-6 leading-tight"
             >
-              Cabinet d'Ostéopathie{' '}
+              {showCabinetPrefix && <>Cabinet d'Ostéopathie{' '}</>}
               <span className="text-primary-600">
                 <ProspectName fallback={`${CABINET_INFO.firstName} ${CABINET_INFO.lastName}`} />
               </span>

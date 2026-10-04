@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import { Phone, Mail, MapPin, X } from 'lucide-react';
 import { CABINET_INFO } from '@/lib/constants';
 import {
+  ProspectEmail,
   ProspectInitials,
   ProspectName,
   ProspectText,
@@ -120,15 +121,12 @@ export default function MobileNav({ open, onClose, navigation }: MobileNavProps)
                   <span className="text-sm">{CABINET_INFO.phone}</span>
                 </a>
 
-                <a
-                  href={`mailto:${CABINET_INFO.email}`}
-                  className="flex items-center gap-3 text-neutral-700 hover:text-primary-600 transition-colors"
-                >
+                <div className="flex items-center gap-3 text-neutral-700">
                   <div className="w-10 h-10 bg-primary-50 rounded-full flex items-center justify-center">
                     <Mail size={18} className="text-primary-600" />
                   </div>
-                  <span className="text-sm">{CABINET_INFO.email}</span>
-                </a>
+                  <ProspectEmail className="text-sm hover:text-primary-600 transition-colors" />
+                </div>
 
                 <div className="flex items-start gap-3 text-neutral-700">
                   <div className="w-10 h-10 bg-primary-50 rounded-full flex items-center justify-center flex-shrink-0">

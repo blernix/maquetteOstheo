@@ -76,8 +76,9 @@ export default function RootLayout({
   return (
     <html lang="fr" className={`${inter.variable} ${lora.variable}`}>
       <head>
-        {/* JSON-LD Schema.org pour SEO */}
+        {/* JSON-LD Schema.org pour SEO (mis à jour côté client si personnalisé) */}
         <script
+          id="schema-org"
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({

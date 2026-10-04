@@ -243,6 +243,9 @@ export const TESTIMONIALS = [
     name: 'Marie D.',
     rating: 5,
     comment: 'Sophie m\'a accompagnée tout au long de ma grossesse. Grâce à ses soins, j\'ai pu soulager mes douleurs lombaires et me préparer sereinement à l\'accouchement. Je la recommande vivement !',
+    // Variante utilisée en mode personnalisé : `{praticien}` est remplacé par
+    // le prénom fourni, ou par « le praticien » à défaut.
+    commentPersonnalise: '{praticien} m\'a accompagnée tout au long de ma grossesse. Grâce à ses soins, j\'ai pu soulager mes douleurs lombaires et me préparer sereinement à l\'accouchement. Je recommande vivement !',
     source: 'Google',
     date: '2024-10-15',
   },
@@ -251,6 +254,7 @@ export const TESTIMONIALS = [
     name: 'Thomas L.',
     rating: 5,
     comment: 'Ostéopathe très professionnelle et à l\'écoute. Elle a réussi à soulager mes douleurs cervicales chroniques en quelques séances. Cabinet agréable et bien situé.',
+    commentPersonnalise: 'Ostéopathe très professionnel et à l\'écoute. Il a réussi à soulager mes douleurs cervicales chroniques en quelques séances. Cabinet agréable et bien situé.',
     source: 'Doctolib',
     date: '2024-09-28',
   },
@@ -259,6 +263,7 @@ export const TESTIMONIALS = [
     name: 'Isabelle M.',
     rating: 5,
     comment: 'J\'ai consulté pour mon bébé de 2 mois qui souffrait de coliques. Sophie a été très douce et professionnelle. Les résultats ont été immédiats ! Merci infiniment.',
+    commentPersonnalise: 'J\'ai consulté pour mon bébé de 2 mois qui souffrait de coliques. {praticien} a été d\'une grande douceur et d\'un grand professionnalisme. Les résultats ont été immédiats ! Merci infiniment.',
     source: 'Google',
     date: '2024-11-02',
   },
@@ -267,6 +272,7 @@ export const TESTIMONIALS = [
     name: 'Pierre R.',
     rating: 5,
     comment: 'En tant que coureur régulier, je consulte Sophie pour prévenir les blessures et optimiser mes performances. Son approche globale fait vraiment la différence.',
+    commentPersonnalise: 'En tant que coureur régulier, je consulte {praticien} pour prévenir les blessures et optimiser mes performances. Son approche globale fait vraiment la différence.',
     source: 'Doctolib',
     date: '2024-10-20',
   },

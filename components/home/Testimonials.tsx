@@ -7,8 +7,17 @@ import Section, { SectionHeader } from '@/components/ui/Section';
 import Card from '@/components/ui/Card';
 import { TESTIMONIALS } from '@/lib/constants';
 import { formatDate } from '@/lib/utils';
+import { useProspectIdentity } from '@/components/shared/ProspectPersonalization';
 
 export default function Testimonials() {
+  const { prenom, active } = useProspectIdentity();
+
+  const resolveComment = (testimonial: (typeof TESTIMONIALS)[number]) => {
+    if (!active) return testimonial.comment;
+    const base = testimonial.commentPersonnalise ?? testimonial.comment;
+    return base.split('{praticien}').join(prenom ?? 'le praticien');
+  };
+
   return (
     <Section background="white" padding="lg">
       <SectionHeader
@@ -46,7 +55,7 @@ export default function Testimonials() {
 
                 {/* Commentaire */}
                 <p className="text-neutral-700 leading-relaxed mb-6 flex-grow">
-                  "{testimonial.comment}"
+                  "{resolveComment(testimonial)}"
                 </p>
 
                 {/* Auteur et source */}

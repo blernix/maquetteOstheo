@@ -7,7 +7,10 @@ import Section, { SectionHeader } from '@/components/ui/Section';
 import Card from '@/components/ui/Card';
 import ContactForm from '@/components/contact/ContactForm';
 import { CABINET_INFO } from '@/lib/constants';
-import { ProspectText } from '@/components/shared/ProspectPersonalization';
+import {
+  ProspectEmail,
+  ProspectText,
+} from '@/components/shared/ProspectPersonalization';
 
 export default function ContactPage() {
   return (
@@ -97,12 +100,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <p className="font-semibold text-neutral-900 mb-1">Email</p>
-                  <a
-                    href={`mailto:${CABINET_INFO.email}`}
-                    className="text-sm text-neutral-600 hover:text-primary-600 break-all"
-                  >
-                    {CABINET_INFO.email}
-                  </a>
+                  <ProspectEmail className="text-sm text-neutral-600 hover:text-primary-600 break-all" />
                 </div>
               </div>
             </Card>

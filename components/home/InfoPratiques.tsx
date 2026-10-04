@@ -6,7 +6,11 @@ import { MapPin, Phone, Mail, Clock, Train, Car, Euro } from 'lucide-react';
 import Section, { SectionHeader } from '@/components/ui/Section';
 import Card from '@/components/ui/Card';
 import { CABINET_INFO } from '@/lib/constants';
-import { ProspectCity } from '@/components/shared/ProspectPersonalization';
+import {
+  ProspectCity,
+  ProspectEmail,
+  ProspectText,
+} from '@/components/shared/ProspectPersonalization';
 
 export default function InfoPratiques() {
   const infoCards = [
@@ -15,9 +19,12 @@ export default function InfoPratiques() {
       title: 'Adresse',
       content: (
         <>
-          <p className="text-neutral-700">{CABINET_INFO.address.street}</p>
           <p className="text-neutral-700">
-            {CABINET_INFO.address.postalCode} <ProspectCity fallback={CABINET_INFO.address.city} />
+            <ProspectText text={CABINET_INFO.address.street} />
+          </p>
+          <p className="text-neutral-700">
+            <ProspectText text={CABINET_INFO.address.postalCode} />{' '}
+            <ProspectCity fallback={CABINET_INFO.address.city} />
           </p>
           <p className="text-sm text-primary-600 mt-2">Métro : Alésia (ligne 4)</p>
         </>
@@ -50,12 +57,7 @@ export default function InfoPratiques() {
           >
             {CABINET_INFO.phone}
           </a>
-          <a
-            href={`mailto:${CABINET_INFO.email}`}
-            className="block text-neutral-700 hover:text-primary-600 transition-colors text-sm"
-          >
-            {CABINET_INFO.email}
-          </a>
+          <ProspectEmail className="block text-neutral-700 hover:text-primary-600 transition-colors text-sm" />
         </>
       ),
     },

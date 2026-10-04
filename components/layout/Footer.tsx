@@ -1,9 +1,10 @@
 import React from 'react';
 import Link from 'next/link';
-import { Phone, Mail, MapPin, Clock, Facebook, Instagram, Linkedin } from 'lucide-react';
+import { Phone, MapPin, Clock, Facebook, Instagram, Linkedin } from 'lucide-react';
 import { CABINET_INFO } from '@/lib/constants';
 import {
   ProspectCity,
+  ProspectEmail,
   ProspectInitials,
   ProspectName,
   ProspectText,
@@ -83,15 +84,11 @@ export default function Footer() {
                   {CABINET_INFO.phone}
                 </a>
               </div>
-              <div className="flex items-center gap-3">
-                <Mail size={18} className="text-primary-400 flex-shrink-0" />
-                <a
-                  href={`mailto:${CABINET_INFO.email}`}
-                  className="text-neutral-400 hover:text-white transition-colors"
-                >
-                  {CABINET_INFO.email}
-                </a>
-              </div>
+              <ProspectEmail
+                className="flex items-center gap-3 text-neutral-400 hover:text-white transition-colors"
+                withIcon
+                iconClassName="h-[18px] w-[18px] text-primary-400 flex-shrink-0"
+              />
               <div className="flex items-start gap-3">
                 <Clock size={18} className="text-primary-400 flex-shrink-0 mt-0.5" />
                 <div className="text-neutral-400">
